@@ -1,3 +1,65 @@
+由于直接使用ofd.js无法满足需求，故找到这个。使用方法如下：
+安装ofd依赖包，将该项目下的utils文件夹拷贝到自己的项目下，vue文件如下：
+
+```
+
+<template>
+  <div id="divId" style="text-align: center"></div>
+</template>
+
+<script>
+// import { parseOfdDocument, renderOfd } from "ofd.js";
+import { parseOfdDocument, renderOfd } from "@/utils/ofd/ofd";
+
+export default {
+  data() {
+    return {
+      isOFD: true,
+      ofdUrl: '999.ofd',
+    };
+  },
+  mounted() {
+    parseOfdDocument({
+        ofd: this.ofdUrl,
+        success(res) {
+          console.log('success', res)
+          //输出ofd每页的div
+          let screenWidth = 1000;
+          const divs = renderOfd(screenWidth, res[0]);
+          let contentDiv = document.getElementById('divId');
+          contentDiv.innerHTML = '';
+          for (const div of divs) {
+            contentDiv.appendChild(div);
+          }
+        },
+        fail(error){
+            console.log(error)
+        }
+    })
+  },
+  methods: {
+
+  }
+};
+</script>
+<style lang="less" scoped>
+#divId {
+  max-height: 80%;
+  overflow-y: scroll;
+  margin-left: 88px
+}
+</style>
+```
+
+
+
+
+
+
+
+
+
+
 # ofd.js
 
 ### 在使用ofd.js前请务必悉知  [《ofd.js免责声明》](https://github.com/DLTech21/ofd.js/blob/master/%E5%85%8D%E8%B4%A3%E5%A3%B0%E6%98%8E.md)
